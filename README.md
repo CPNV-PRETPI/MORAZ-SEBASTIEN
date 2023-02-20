@@ -1,2 +1,0 @@
-# Projet PréTPI
-## Sébastien Moraz
