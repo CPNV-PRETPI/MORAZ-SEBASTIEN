@@ -1,1 +1,1 @@
-{"version":1,"defects":{"DemoTest::testGetTest2":8},"times":{"DemoTest::testGetTest2":0,"DemoTest::test__construct":0}}
+{"version":1,"defects":{"DemoTest::test__construct":5},"times":{"DemoTest::test__construct":0,"DemoTest::testGetTest2":0}}
