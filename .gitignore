@@ -79,3 +79,6 @@ fabric.properties
 
 # Composer
 /vendor
+
+# PhpUnit
+.phpunit.result.cache
