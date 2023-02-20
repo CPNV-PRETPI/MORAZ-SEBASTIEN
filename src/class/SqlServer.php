@@ -1,7 +1,9 @@
 <?php
 
 
-class SqlServer{
+namespace class;
+class SqlServer
+{
 
     public function __construct()
     {
@@ -9,13 +11,12 @@ class SqlServer{
 
         if (!$link) {
             echo "Error Connect MariaDB server";
-        }else{
+        } else {
             echo "good";
         }
 
     }
 }
-
 
 
 ?>

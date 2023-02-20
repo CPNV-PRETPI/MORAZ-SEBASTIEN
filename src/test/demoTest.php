@@ -1,9 +1,12 @@
 <?php
 
-require "./class/demo.php";
+namespace test;
+require "../class/demo.php";
+
+use class\Demo;
 use PHPUnit\Framework\TestCase;
 
-class DemoTest extends TestCase
+class demoTest extends TestCase
 {
 
     public function test__construct()

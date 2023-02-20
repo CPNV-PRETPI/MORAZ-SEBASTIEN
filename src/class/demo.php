@@ -1,6 +1,8 @@
 <?php
 
-class Demo{
+namespace class;
+class Demo
+{
     public $test1;
     private $test2;
 
@@ -10,7 +12,8 @@ class Demo{
         $this->test2 = $test2;
     }
 
-    public function GetTest2(){
+    public function GetTest2()
+    {
         return $this->test2;
     }
 }
