@@ -17,10 +17,3 @@ class SqlServer{
 }
 
 
-
-
-class Demo{
-
-}
-
-?>
