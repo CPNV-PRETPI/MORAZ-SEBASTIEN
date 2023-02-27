@@ -84,5 +84,5 @@ fabric.properties
 # PhpUnit
 .phpunit.result.cache
 
-# Data
-/src/data/
+# custom
+/src/data

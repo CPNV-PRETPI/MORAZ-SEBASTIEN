@@ -9,11 +9,12 @@ if(isset($_GET["action"])){
             LoadPing();
             break;
         case "login":
-            if(isset($_GET["email"]) && isset($_GET["password"])){
-                LoadLogin($_GET["email"], $_GET["password"]);
+            if(isset($_POST["email"]) && isset($_POST["password"])){
+                LoadLogin($_POST["email"], $_POST["password"]);
             }
             else{
-                echo "error, you need to provide email and password (ex: ?action=login&email=\"email\"&password=\"password\") ";
+                echo "error, you need to provide email and password (ex: ?action=login | POST (password, email)) ";
+
             }
 
             break;

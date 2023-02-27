@@ -14,10 +14,11 @@ function Login($email, $password): void
     $result = ExecuteQuery($mysqli, $query);
     if($result->num_rows > 0){
         $row = $result->fetch_assoc();
-        echo $row["token"];
+        echo ("{\"token\":\"" . $row["token"] ."\"}");
     }
     else{
         echo "login failed";
+        http_response_code(401);
     }
     dbclose($mysqli);
 }

@@ -20,7 +20,7 @@ class testDbConnector extends TestCase
     public function testLoginSuccess()
     {
         LoadLogin("testuser@exemple.com","1234");
-        $this->expectOutputString("exemple_tocken");
+        $this->expectOutputString('{"token":"exemple_tocken"}');
     }
 
     public function testLoginFailure()
