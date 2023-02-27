@@ -1,5 +1,8 @@
 <?php
 
+namespace class;
+use PDO;
+
 class DbConnect
 {
     private PDO $conn;
@@ -15,18 +18,14 @@ class DbConnect
         $this->password = $password;
         $this->database = $database;
 
-        $this->dbConnector();
+        $this->dbConnect();
     }
 
-    private function dbConnector(): void
+    private function dbConnect(): void
     {
-        $this->conn = new PDO("mysql:host=".$this->hostname.";dbname=".$this->database, $this->username,$this->password);
+        $this->conn = new PDO("mysql:host=" . $this->hostname . ";dbname=" . $this->database, $this->username, $this->password);
     }
 
-    public function getDbConnector(): PDO
-    {
-        return $this->conn;
-    }
     public function executeQuery(string $query): bool|array
     {
         $stm = $this->conn->query($query);
