@@ -1,6 +1,6 @@
 <?php
 
-require "dbConnector.php";
+require "DbConnect.php";
 
 
 function Ping(): void

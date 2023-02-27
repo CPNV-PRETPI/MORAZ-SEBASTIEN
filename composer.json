@@ -11,6 +11,6 @@
   ],
   "require": {
     "phpunit/phpunit": "10.0.9",
-    "ext-mysqli": "*"
+    "ext-pdo": "*"
   }
 }
