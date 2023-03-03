@@ -29,7 +29,13 @@ class DbConnect
     public function executeQuery(string $query): bool|array
     {
         $stm = $this->conn->query($query);
-        return $stm->fetchAll(PDO::FETCH_NUM);
+        $result = $stm->fetchAll(PDO::FETCH_NUM);
+        if ($result != null){
+            return $result;
+        }
+        else{
+            return false;
+        }
     }
 }
 

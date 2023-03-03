@@ -14,21 +14,21 @@ class UserTest extends TestCase
     
     public function testRequestTokenFromDbSuccess()
     {
-        $user = new User('testuser@exemple.com', '1234');
-        $user->loadToken();
-
-        $this->assertNotNull($user->getToken());
-
+        $user = new User(NULL, 'testuser@exemple.com', '1234');
+        $user->login();
+        $this->assertNotNull($user->getUserData());
     }
 
     public function testRequestTokenFromDbFail()
     {
-        $user = new User('testuser@exemple.com', '12346');
-        $user->loadToken();
+        $user = new User(NULL, 'testuser@exemple.com', '12346');
+        $user->login();
 
-        $this->assertNull($user->getToken());
+        $this->assertNull($user->getUserData());
 
     }
+
+
 
 
 }
