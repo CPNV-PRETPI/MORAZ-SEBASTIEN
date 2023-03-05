@@ -1,7 +1,9 @@
 <?php
 
 namespace class;
+
 use PDO;
+use PDOException;
 
 class DbConnect
 {
@@ -23,7 +25,15 @@ class DbConnect
 
     private function dbConnect(): void
     {
-        $this->conn = new PDO("mysql:host=" . $this->hostname . ";dbname=" . $this->database, $this->username, $this->password);
+        try {
+            $this->conn = new PDO("mysql:host=" . $this->hostname . ";dbname=" . $this->database, $this->username, $this->password);
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo "Error :" . $e->getMessage();
+
+        }
+
+
     }
 
     public function executeQuery(string $query): bool|array

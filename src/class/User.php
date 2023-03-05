@@ -34,10 +34,10 @@ class User
             $this->email = $email;
             $this->password = $password;
         }else{
+            http_response_code(400);
             throw new Exception("Invalid parameters");
+
         }
-
-
 
         $config = json_decode(file_get_contents('C:\Users\sebas\Desktop\MORAZ-SEBASTIEN\src\data\dbConfig.json'), true);
         $this->conn = new DbConnect($config["hostname"], $config["username"],$config["password"], $config["database"]);
@@ -51,6 +51,7 @@ class User
     public function login(): void
     {
         if ($this->password == NULL || $this->email == NULL){
+            http_response_code(400);
             throw new Exception("Parameters not set");
         }
         $hashed = hash('sha512', $this->password);
@@ -74,9 +75,18 @@ class User
     public function register(string $name): void
     {
         if ($this->password == NULL || $this->email == NULL){
+            http_response_code(400);
             throw new Exception("Parameters not set");
         }
+
+        #check if email is a valid email
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
+            http_response_code(400);
+            throw new Exception("Invalid email");
+        }
+
         if ($this->conn->executeQuery("SELECT email FROM user WHERE email = '$this->email'") != null){
+            http_response_code(400);
             throw new Exception("Email already used");
         }
         $hashed = hash('sha512', $this->password);
