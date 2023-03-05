@@ -34,6 +34,14 @@ if(isset($_GET["action"])){
                 }
 
             break;
+            case "register":
+                if(isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["name"])){
+                    require_once "src/model/requestRegister.php";
+                    requestRegister($_POST["email"], $_POST["password"], $_POST["name"]);
+                }else{
+                    echo json_encode("invalid parameters");
+                }
+            break;
         default:
             echo json_encode("Incorrect action");
             break;

@@ -6,9 +6,10 @@ require "DbConnect.php";
 
 class User
 {
-    #Public Parameters
+    #Public Parameter
     public string $email;
     public string $password;
+
 
     #Private Parameter
     private string|null $token;
@@ -18,7 +19,10 @@ class User
 
 
     /**
-     * @note Init a User Object
+     * User constructor.
+     * @param string|null $token
+     * @param string|null $email
+     * @param string|null $password
      * @throws Exception
      */
     public function __construct(string $token = NULL, string $email = NULL, string $password = NULL)
@@ -30,22 +34,26 @@ class User
             $this->email = $email;
             $this->password = $password;
         }else{
+            http_response_code(400);
             throw new Exception("Invalid parameters");
+
         }
 
-
-
-        $config = json_decode(file_get_contents('C:\Users\sebastien.moraz\MORAZ-SEBASTIEN\src\data\dbConfig.json'), true);
+        $config = json_decode(file_get_contents('C:\Users\sebas\Desktop\MORAZ-SEBASTIEN\src\data\dbConfig.json'), true);
         $this->conn = new DbConnect($config["hostname"], $config["username"],$config["password"], $config["database"]);
     }
 
 
 
     /**
-     * @note Verify login parameter of user here a Database
+     * @note Get User Data
      */
     public function login(): void
     {
+        if ($this->password == NULL || $this->email == NULL){
+            http_response_code(400);
+            throw new Exception("Parameters not set");
+        }
         $hashed = hash('sha512', $this->password);
         $result = $this->conn->executeQuery("SELECT token,name FROM user WHERE email = '$this->email' AND password = '$hashed'");
         if ($result != null){
@@ -60,6 +68,43 @@ class User
     }
 
     /**
+     * @note Register a new user in Database
+     * @param string $name
+     * @throws Exception
+     */
+    public function register(string $name): void
+    {
+        if ($this->password == NULL || $this->email == NULL){
+            http_response_code(400);
+            throw new Exception("Parameters not set");
+        }
+
+        #check if email is a valid email
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
+            http_response_code(400);
+            throw new Exception("Invalid email");
+        }
+
+        if ($this->conn->executeQuery("SELECT email FROM user WHERE email = '$this->email'") != null){
+            http_response_code(400);
+            throw new Exception("Email already used");
+        }
+        $hashed = hash('sha512', $this->password);
+
+        do{
+            $this->token = bin2hex(random_bytes(32));
+        }while ($this->conn->executeQuery("SELECT token FROM user WHERE token = '$this->token'") != null);
+
+        $result = $this->conn->executeQuery("INSERT INTO user (email, name, password, token) VALUES ('$this->email', '$name', '$hashed', '$this->token')");
+        if ($result != null){
+            $this->token = null;
+        }else{
+            $this->userName = $name;
+        }
+    }
+
+    /**
+     * @note Get User Data
      * @return array|null
      */
     public function getUserData(): null|array
@@ -76,6 +121,7 @@ class User
     }
 
     /**
+     * @note Get all calendar of the user
      * @return array
      */
     public function getCalendar(): array

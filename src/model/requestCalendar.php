@@ -9,8 +9,12 @@ require "src/class/User.php";
  */
 function requestCalendar(string $token): void
 {
-    $user = new User($token);
-    echo json_encode($user->getCalendar());
+    try {
+        $user = new User($token);
+        echo json_encode($user->getCalendar());
+    } catch (Exception $e) {
+        echo json_encode($e->getMessage());
+    }
 }
 
 ?>

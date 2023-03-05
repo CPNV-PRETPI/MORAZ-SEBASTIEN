@@ -44,5 +44,25 @@ class UserTest extends TestCase
         $this->assertNotEquals($result,json_encode($user->getCalendar()));
     }
 
+    public function testRegisterInDatabaseSuccess()
+    {
+        $user = new User(NULL, 'testCreate@demo.com', '1234');
+        $user->register("testCreate");
+        $this->assertNotNull($user->getUserData());
+
+    }
+
+    public function testRegisterInDatabaseFailed()
+    {
+        try {
+            $user = new User(NULL, 'testCreate@demo.com', '1234');
+            $user->register("testCreate");
+            $user2 = $user = new User(NULL, 'testCreate@demo.com', '12345');
+            $user2->register("testCreate2");
+        } catch (\Exception $e) {
+            $this->assertEquals("Email already used", $e->getMessage());
+        }
+
+    }
 
 }
