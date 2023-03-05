@@ -44,5 +44,12 @@ class UserTest extends TestCase
         $this->assertNotEquals($result,json_encode($user->getCalendar()));
     }
 
+    public function testRegisterInDatabaseSuccess()
+    {
+        $user = new User(NULL, 'testCreate@demo.com', '1234');
+        $user->register("testCreate");
+        $this->assertNotNull($user->getUserData());
+
+    }
 
 }
