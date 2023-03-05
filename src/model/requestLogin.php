@@ -2,6 +2,14 @@
 
 require "src/class/User.php";
 
+
+/**
+ * @param string|NULL $token
+ * @param string|null $email
+ * @param string|null $password
+ * @return void
+ * @throws Exception
+ */
 function requestLogin(string $token = NULL, string|null $email = NULL, string|null $password = NULL): void
 {
     if ($token != NULL){

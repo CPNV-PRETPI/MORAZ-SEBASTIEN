@@ -1,10 +1,16 @@
 <?php
 
-
+/*
+ * Title: KoppaGenda
+ * Author: Sébastien Moraz
+ * Last Update: 05.03.2023
+ * Version: 0.2
+ */
 
 
 if(isset($_GET["action"])){
 
+    # Redirect to a good process
     switch ($_GET["action"]){
         case "login":
             if(isset($_POST["email"]) && isset($_POST["password"])){
@@ -29,7 +35,7 @@ if(isset($_GET["action"])){
 
             break;
         default:
-            echo "default";
+            echo json_encode("Incorrect action");
             break;
     }
 }

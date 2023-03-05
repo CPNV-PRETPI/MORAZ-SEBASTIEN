@@ -6,8 +6,11 @@ require "DbConnect.php";
 
 class User
 {
+    #Public Parameters
     public string $email;
     public string $password;
+
+    #Private Parameter
     private string|null $token;
     private DbConnect $conn;
     private array $calendar;
@@ -15,6 +18,7 @@ class User
 
 
     /**
+     * @note Init a User Object
      * @throws Exception
      */
     public function __construct(string $token = NULL, string $email = NULL, string $password = NULL)
@@ -37,7 +41,9 @@ class User
 
 
 
-
+    /**
+     * @note Verify login parameter of user here a Database
+     */
     public function login(): void
     {
         $hashed = hash('sha512', $this->password);
@@ -53,7 +59,9 @@ class User
         }
     }
 
-
+    /**
+     * @return array|null
+     */
     public function getUserData(): null|array
     {
         if ($this->token != null){
@@ -67,6 +75,9 @@ class User
         }
     }
 
+    /**
+     * @return array
+     */
     public function getCalendar(): array
     {
         if ($this->token == null){
