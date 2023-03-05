@@ -52,4 +52,17 @@ class UserTest extends TestCase
 
     }
 
+    public function testRegisterInDatabaseFailed()
+    {
+        try {
+            $user = new User(NULL, 'testCreate@demo.com', '1234');
+            $user->register("testCreate");
+            $user2 = $user = new User(NULL, 'testCreate@demo.com', '12345');
+            $user2->register("testCreate2");
+        } catch (\Exception $e) {
+            $this->assertEquals("Email already used", $e->getMessage());
+        }
+
+    }
+
 }
