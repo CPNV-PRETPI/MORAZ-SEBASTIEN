@@ -7,12 +7,13 @@ require "DbConnect.php";
 class User
 {
     #Public Parameter
-    public string $email;
-    public string $password;
+    public string|null $email = NULL;
+
 
 
     #Private Parameter
-    private string|null $token;
+    private string|null $password = NULL;
+    private string|null $token = NULL;
     private DbConnect $conn;
     private array $calendar;
     private string $userName;
@@ -39,7 +40,7 @@ class User
 
         }
 
-        $config = json_decode(file_get_contents('C:\Users\sebas\Desktop\MORAZ-SEBASTIEN\src\data\dbConfig.json'), true);
+        $config = json_decode(file_get_contents('P:\MORAZ-SEBASTIEN\src\data\dbConfig.json'), true);
         $this->conn = new DbConnect($config["hostname"], $config["username"],$config["password"], $config["database"]);
     }
 
@@ -50,21 +51,35 @@ class User
      */
     public function login(): void
     {
-        if ($this->password == NULL || $this->email == NULL){
-            http_response_code(400);
-            throw new Exception("Parameters not set");
-        }
-        $hashed = hash('sha512', $this->password);
-        $result = $this->conn->executeQuery("SELECT token,name FROM user WHERE email = '$this->email' AND password = '$hashed'");
-        if ($result != null){
-            foreach ($result as $value){
-                $this->token = $value[0];
-                $this->userName = $value[1];
+        if ($this->token != NULL){
+            $result = $this->conn->executeQuery("SELECT email,name FROM user WHERE token = '$this->token'");
+            if ($result != null){
+                foreach ($result as $value){
+                    $this->email = $value[0];
+                    $this->userName = $value[1];
+                }
+            }
+            else{
+                http_response_code(401);
+                throw new Exception("Invalid token");
+            }
+
+        }elseif ($this->email != NULL && $this->password != NULL){
+            $hashed = hash('sha512', $this->password);
+            $result = $this->conn->executeQuery("SELECT token,name FROM user WHERE email = '$this->email' AND password = '$hashed'");
+            if ($result != null){
+                foreach ($result as $value){
+                    $this->token = $value[0];
+                    $this->userName = $value[1];
+                }
+            }
+            else{
+                http_response_code(401);
+                throw new Exception("Invalid email or password");
             }
         }
-        else{
-            $this->token = null;
-        }
+
+
     }
 
     /**
@@ -140,7 +155,8 @@ class User
                 ORDER BY c.id, e.start;
             ");
             if ($result == null){
-                return array();
+                http_response_code(401);
+                throw new Exception("Error while getting calendar");
             }
             foreach ($result as $value){
                 $this->calendar[$value[0]] = array(

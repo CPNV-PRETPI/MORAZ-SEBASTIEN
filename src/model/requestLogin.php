@@ -10,11 +10,12 @@ require "src/class/User.php";
  * @return void
  * @throws Exception
  */
-function requestLogin(string $token = NULL, string|null $email = NULL, string|null $password = NULL): void
+function requestLogin(string|null $token = NULL, string|null $email = NULL, string|null $password = NULL): void
 {
     if ($token != NULL){
         try {
             $user = new User($token);
+            $user->login();
             echo json_encode($user->getUserData());
         } catch (Exception $e) {
             echo json_encode($e->getMessage());
