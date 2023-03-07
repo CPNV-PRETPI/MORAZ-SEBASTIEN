@@ -1,6 +1,6 @@
 <?php
 
-require "src/class/User.php";
+require "src/class/Calendar.php";
 
 /**
  * @param string $token
@@ -10,8 +10,8 @@ require "src/class/User.php";
 function requestCalendar(string $token): void
 {
     try {
-        $user = new User($token);
-        echo json_encode($user->getCalendar());
+        $calendar = new Calendar($token);
+        echo json_encode($calendar->getCalendar());
     } catch (Exception $e) {
         echo json_encode($e->getMessage());
     }

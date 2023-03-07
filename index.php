@@ -11,16 +11,16 @@ if(isset($_GET["action"]) && isset($_POST)){
 
     switch ($_GET["action"]){
         case "login":
-            require_once "src/model/requestLogin.php";
-            requestLogin($_POST);
-            break;
-        case "getCalendar":
-            require_once "src/model/requestCalendar.php";
-            requestCalendar($_POST);
+            require_once "src/controller/user.php";
+            loadLogin($_POST);
             break;
         case "register":
-            require_once "src/model/requestRegister.php";
-            requestRegister($_POST);
+            require_once "src/controller/user.php";
+            loadRegister($_POST);
+            break;
+        case "getCalendar":
+            require_once "src/controller/calendar.php";
+            loadCalendar($_POST);
             break;
         default:
             echo json_encode("Incorrect action");

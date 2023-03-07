@@ -10,7 +10,11 @@ require_once "src/class/User.php";
  */
 function requestRegister(string $email, string $password, string $name): void
 {
-
+    #check if email is a valid email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        http_response_code(400);
+        throw new Exception("Invalid email");
+    }
     try {
         $user = new User(NULL, $email, $password);
         $user->register($name);

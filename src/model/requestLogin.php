@@ -12,6 +12,7 @@ require "src/class/User.php";
  */
 function requestLoginWithEmail(string $email, string $password): void
 {
+
     try {
         $user = new User(NULL, $email, $password);
         $user->login();
