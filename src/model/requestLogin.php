@@ -10,26 +10,25 @@ require "src/class/User.php";
  * @return void
  * @throws Exception
  */
-function requestLogin(string|null $token = NULL, string|null $email = NULL, string|null $password = NULL): void
+function requestLoginWithEmail(string $email, string $password): void
 {
-    if ($token != NULL){
-        try {
-            $user = new User($token);
-            $user->login();
-            echo json_encode($user->getUserData());
-        } catch (Exception $e) {
-            echo json_encode($e->getMessage());
-        }
-    }elseif ($email != NULL && $password != NULL) {
-        try {
-            $user = new User(NULL, $email, $password);
-            $user->login();
-            echo json_encode($user->getUserData());
-        } catch (Exception $e) {
-            echo json_encode($e->getMessage());
-        }
-    }else{
-        echo json_encode("invalid parameters");
+    try {
+        $user = new User(NULL, $email, $password);
+        $user->login();
+        echo json_encode($user->getUserData());
+    } catch (Exception $e) {
+        echo json_encode($e->getMessage());
+    }
+}
+
+function requestLoginWithToken(string $token): void
+{
+    try {
+        $user = new User($token);
+        $user->login();
+        echo json_encode($user->getUserData());
+    } catch (Exception $e) {
+        echo json_encode($e->getMessage());
     }
 }
 
