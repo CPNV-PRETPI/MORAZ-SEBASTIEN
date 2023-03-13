@@ -7,19 +7,19 @@
  * Version: 0.2
  */
 
-if(isset($_GET["action"]) && isset($_POST)){
+if(isset($_GET["action"])){
 
     switch ($_GET["action"]){
         case "login":
-            require_once "src/controller/user.php";
+            require_once "controller/user.php";
             loadLogin($_POST);
             break;
         case "register":
-            require_once "src/controller/user.php";
+            require_once "controller/user.php";
             loadRegister($_POST);
             break;
         case "getCalendar":
-            require_once "src/controller/calendar.php";
+            require_once "controller/calendar.php";
             loadCalendar($_POST);
             break;
         default:

@@ -1,6 +1,6 @@
 <?php
 
-require "src/class/Calendar.php";
+require "class/Calendar.php";
 
 /**
  * @param string $token

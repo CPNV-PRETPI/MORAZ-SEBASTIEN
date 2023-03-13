@@ -1,6 +1,6 @@
 <?php
 
-require "src/class/User.php";
+require "class/User.php";
 
 
 /**

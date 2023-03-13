@@ -2,7 +2,7 @@
 
 
 function loadLogin($loginUserData){
-    require "src/model/requestLogin.php";
+    require "model/requestLogin.php";
     if (isset($loginUserData['email']) && isset($loginUserData['password'])){
         requestLoginWithEmail($loginUserData['email'],$loginUserData['password']);
     }elseif (isset($loginUserData['token'])){
@@ -13,7 +13,7 @@ function loadLogin($loginUserData){
     }
 }
 function loadRegister($registerUserData){
-    require "src/model/requestRegister.php";
+    require "model/requestRegister.php";
     if (isset($registerUserData['email']) && isset($registerUserData['password']) && isset($registerUserData['name'])){
         requestRegister($registerUserData['email'],$registerUserData['password'],$registerUserData['name']);
     }else{

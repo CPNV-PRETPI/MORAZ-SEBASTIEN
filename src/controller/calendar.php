@@ -1,7 +1,7 @@
 <?php
 
 function loadCalendar($calendarData){
-    require "src/model/requestCalendar.php";
+    require "model/requestCalendar.php";
     if (isset($calendarData['token'])){
         requestCalendar($calendarData['token']);
     }else{

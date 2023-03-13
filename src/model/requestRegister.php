@@ -1,6 +1,6 @@
 <?php
 
-require_once "src/class/User.php";
+require_once "class/User.php";
 
 /**
  * @param string $email
