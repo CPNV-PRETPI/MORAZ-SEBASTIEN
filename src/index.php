@@ -6,6 +6,10 @@
  * Last Update: 05.03.2023
  * Version: 0.2
  */
+if (isset($_SERVER["HTTP_AUTHENTICATE"])){
+    echo "gg";
+}
+
 
 if(isset($_GET["action"])){
 
