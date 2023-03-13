@@ -52,17 +52,18 @@ class UserTest extends TestCase
 
     }
 
-    public function testRegisterInDatabaseFailed()
+    public function test_registerInDatabase_throwException()
     {
-        try {
-            $user = new User(NULL, 'testCreate@demo.com', '1234');
-            $user->register("testCreate");
-            $user2 = $user = new User(NULL, 'testCreate@demo.com', '12345');
-            $user2->register("testCreate2");
-        } catch (\Exception $e) {
-            $this->assertEquals("Email already used", $e->getMessage());
-        }
-
+        //given
+        $user = new User(NULL, 'testCreate@demo.com', '1234');
+        $user->register("testCreate");
+        $user2 = $user = new User(NULL, 'testCreate@demo.com', '12345');
+        
+        //when
+        //The event will be triggered by the assertion
+        
+        //then
+        $this->expectException(<TypeOfExceptionToThrow"::class);
+        $this->register->(testCreate);
     }
-
 }
