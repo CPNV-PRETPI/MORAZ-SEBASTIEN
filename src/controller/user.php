@@ -1,12 +1,12 @@
 <?php
 
 
-function loadLogin($loginUserData){
+function loadLogin($loginUserData, $server){
     require "model/requestLogin.php";
     if (isset($loginUserData['email']) && isset($loginUserData['password'])){
         requestLoginWithEmail($loginUserData['email'],$loginUserData['password']);
-    }elseif (isset($loginUserData['token'])){
-        requestLoginWithToken($loginUserData['token']);
+    }elseif (isset($server['HTTP_AUTHENTICATE'])){
+        requestLoginWithToken($server['HTTP_AUTHENTICATE']);
     }else{
         http_response_code(401);
         throw new Exception("Invalid Authentication Method");

@@ -2,7 +2,7 @@
 
 use class\DbConnect;
 
-require "DbConnect.php";
+require_once "DbConnect.php";
 
 
 class Calendar
