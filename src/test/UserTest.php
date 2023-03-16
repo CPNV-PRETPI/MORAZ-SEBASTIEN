@@ -15,7 +15,7 @@ require_once '../class/DbConnect.php';
 
 class UserTest extends TestCase
 {
-    private DbConnect $conn;
+    private DbConnect|null $conn;
 
     protected function setUp(): void
     {
@@ -23,14 +23,14 @@ class UserTest extends TestCase
         $this->conn = new DbConnect($config["hostname"], $config["username"],$config["password"], $config["database"]);
     }
     
-    public function testRequestTokenFromDbSuccess()
+    public function test_requestTokenFromDb_notNull()
     {
         $user = new User(NULL, 'testuser@exemple.com', '1234');
         $user->login();
         $this->assertNotNull($user->getUserData());
     }
 
-    public function testRequestTokenFromDbFail()
+    public function test_requestTokenFromDB_throwException()
     {
         $user = new User(NULL, 'testuser@exemple.com', '12346');
         $this->expectException(Exception::class);
@@ -38,7 +38,7 @@ class UserTest extends TestCase
 
     }
 
-    public function testRequestCalendarValueSuccess()
+    public function test_requestCalendarValue_Equals()
     {
         $result = '{"1":{"id":1,"title":"test1","description":"ceci est le test 1","events":[{"id":1,"title":"test1","description":"ce test 1","start":"2023-03-03 11:06:36","end":"2023-03-03 21:06:37","place":"ici"}]},"2":{"id":2,"title":"test2","description":"ceci est le test 2","events":[{"id":2,"title":"test2","description":"ce test 2","start":"2023-03-04 02:30:12","end":"2023-03-06 12:30:17","place":"la"}]}}';
         $user = new User(NULL, 'testuser@exemple.com', '1234');
@@ -51,7 +51,7 @@ class UserTest extends TestCase
         $this->assertEquals($result,json_encode($calendar->getCalendar()));
     }
 
-    public function testRequestCalendarValueFailed()
+    public function test_requestCalendarValue_throwException()
     {
         $result = '{"1":{"id":1,"title":"test1","description":"ceci est le test 1","events":[{"id":1,"title":"test1","description":"ce test 1","start":"11:06:36","end":"21:06:37","place":"ici"}]},"2":{"id":2,"title":"test2","description":"ceci est le test 2","events":[{"id":2,"title":"test2","description":"ce test 2","start":"26:30:12","end":"84:30:17","place":"la"}]}}';
         $user = new User(NULL, 'testuser@exemple.com', '12345');
@@ -60,7 +60,7 @@ class UserTest extends TestCase
 
     }
 
-    public function testRegisterInDatabaseSuccess()
+    public function test_registerInDatabase_notNull()
     {
         //preremove the user
         try {
@@ -76,6 +76,10 @@ class UserTest extends TestCase
     public function test_registerInDatabase_throwException()
 
     {
+        try {
+            $this->conn->executeQuery("DELETE FROM user WHERE email = 'testCreate@demo.com'");
+        }catch (Exception $e){}
+
         //given
         $user = new User(NULL, 'testCreate@demo.com', '1234');
         $user->register("testCreate");
@@ -87,5 +91,13 @@ class UserTest extends TestCase
         //then
         $this->expectException(Exception::class);
         $user->register("testCreate");
+    }
+
+    protected function tearDown(): void
+    {
+        try {
+            $this->conn->executeQuery("DELETE FROM user WHERE email = 'testCreate@demo.com'");
+        }catch (Exception $e){}
+        $this->conn = null;
     }
 }
