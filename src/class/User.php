@@ -8,15 +8,14 @@ class User
 {
     #Public Parameter
     public string|null $email = NULL;
-
-
+    public string $userName;
 
     #Private Parameter
     private string|null $password = NULL;
     private string|null $token = NULL;
     private DbConnect $conn;
-    private array $calendar;
-    private string $userName;
+
+
 
 
     /**
