@@ -45,9 +45,4 @@ class DbConnect
             return false;
         }
     }
-<<<<<<< HEAD
 }
-?>
-=======
-}
->>>>>>> feature/RefactorTestUser
