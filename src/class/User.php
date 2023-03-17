@@ -16,8 +16,6 @@ class User
     private DbConnect $conn;
 
 
-
-
     /**
      * User constructor.
      * @param string|null $token
@@ -43,10 +41,9 @@ class User
         $this->conn = new DbConnect($config["hostname"], $config["username"],$config["password"], $config["database"]);
     }
 
-
-
     /**
      * @note Get User Data
+     * @throws Exception
      */
     public function login(): void
     {
@@ -77,8 +74,6 @@ class User
                 throw new Exception("Invalid email or password");
             }
         }
-
-
     }
 
     /**
@@ -122,12 +117,4 @@ class User
             return null;
         }
     }
-
-
-
-
 }
-
-
-
-?>
