@@ -37,7 +37,7 @@ class User
 
         }
 
-        $config = json_decode(file_get_contents('P:\MORAZ-SEBASTIEN\src\data\dbConfig.json'), true);
+        $config = json_decode(file_get_contents(dirname(__FILE__) . '/../data/dbConfig.json'), true);
         $this->conn = new DbConnect($config["hostname"], $config["username"],$config["password"], $config["database"]);
     }
 
