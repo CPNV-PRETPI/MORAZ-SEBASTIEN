@@ -4,14 +4,11 @@ use class\DbConnect;
 
 require_once "DbConnect.php";
 
-
 class Calendar
 {
-
     private string $token;
     private DbConnect $conn;
     private array $calendar;
-
 
 
     public function __construct(string $token)
@@ -22,10 +19,10 @@ class Calendar
         $this->conn = new DbConnect($config["hostname"], $config["username"],$config["password"], $config["database"]);
     }
 
-
     /**
      * @note Get all calendar of the user
      * @return array
+     * @throws Exception
      */
     public function getCalendar(): array
     {
@@ -65,12 +62,6 @@ class Calendar
                 );
             }
             return $this->calendar;
-
         }
     }
-
-
-
-
-
 }

@@ -8,15 +8,12 @@ class User
 {
     #Public Parameter
     public string|null $email = NULL;
-
-
+    public string $userName;
 
     #Private Parameter
     private string|null $password = NULL;
     private string|null $token = NULL;
     private DbConnect $conn;
-    private array $calendar;
-    private string $userName;
 
 
     /**
@@ -44,10 +41,9 @@ class User
         $this->conn = new DbConnect($config["hostname"], $config["username"],$config["password"], $config["database"]);
     }
 
-
-
     /**
      * @note Get User Data
+     * @throws Exception
      */
     public function login(): void
     {
@@ -78,8 +74,6 @@ class User
                 throw new Exception("Invalid email or password");
             }
         }
-
-
     }
 
     /**
@@ -123,12 +117,4 @@ class User
             return null;
         }
     }
-
-
-
-
 }
-
-
-
-?>

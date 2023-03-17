@@ -13,6 +13,7 @@ class DbConnect
     private string $password;
     private string $database;
 
+
     public function __construct(string $hostname, string $username, string $password, string $database)
     {
         $this->hostname = $hostname;
@@ -30,10 +31,7 @@ class DbConnect
         } catch (PDOException $e) {
             http_response_code(500);
             echo "Error :" . $e->getMessage();
-
         }
-
-
     }
 
     public function executeQuery(string $query): bool|array
@@ -47,5 +45,9 @@ class DbConnect
             return false;
         }
     }
+<<<<<<< HEAD
 }
 ?>
+=======
+}
+>>>>>>> feature/RefactorTestUser
