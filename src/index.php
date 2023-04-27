@@ -11,15 +11,15 @@ if(isset($_GET["action"])){
 
     switch ($_GET["action"]){
         case "getCalendar":
-            require_once "controller/calendar.php";
+            require_once "controller/calendarController.php";
             loadCalendar($_SERVER);
             break;
         case "login":
-            require_once "controller/user.php";
+            require_once "controller/userController.php";
             loadLogin($_POST, $_SERVER);
             break;
         case "register":
-            require_once "controller/user.php";
+            require_once "controller/userController.php";
             loadRegister($_POST);
             break;
         default:

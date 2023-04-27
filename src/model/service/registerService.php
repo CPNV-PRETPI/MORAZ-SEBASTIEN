@@ -1,6 +1,8 @@
 <?php
 
-require_once "class/User.php";
+use model\class\User;
+
+require_once "entity/User.php";
 
 /**
  * @param string $email

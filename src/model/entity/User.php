@@ -1,6 +1,6 @@
 <?php
 
-use class\DbConnect;
+namespace model\class;
 
 require_once "DbConnect.php";
 
@@ -25,20 +25,19 @@ class User
      */
     public function __construct(string $token = NULL, string $email = NULL, string $password = NULL)
     {
-        if ($token != NULL){
+        if ($token != NULL) {
             $this->token = $token;
-        }
-        elseif ($email != NULL && $password != NULL){
+        } elseif ($email != NULL && $password != NULL) {
             $this->email = $email;
             $this->password = $password;
-        }else{
+        } else {
             http_response_code(400);
             throw new Exception("Invalid parameters");
 
         }
 
         $config = json_decode(file_get_contents(dirname(__FILE__) . '/../data/dbConfig.json'), true);
-        $this->conn = new DbConnect($config["hostname"], $config["username"],$config["password"], $config["database"]);
+        $this->conn = new DbConnect($config["hostname"], $config["username"], $config["password"], $config["database"]);
     }
 
     /**
@@ -47,29 +46,27 @@ class User
      */
     public function login(): void
     {
-        if ($this->token != NULL){
+        if ($this->token != NULL) {
             $result = $this->conn->executeQuery("SELECT email,name FROM user WHERE token = '$this->token'");
-            if ($result != null){
-                foreach ($result as $value){
+            if ($result != null) {
+                foreach ($result as $value) {
                     $this->email = $value[0];
                     $this->userName = $value[1];
                 }
-            }
-            else{
+            } else {
                 http_response_code(401);
                 throw new Exception("Invalid token");
             }
 
-        }elseif ($this->email != NULL && $this->password != NULL){
+        } elseif ($this->email != NULL && $this->password != NULL) {
             $hashed = hash('sha512', $this->password);
             $result = $this->conn->executeQuery("SELECT token,name FROM user WHERE email = '$this->email' AND password = '$hashed'");
-            if ($result != null){
-                foreach ($result as $value){
+            if ($result != null) {
+                foreach ($result as $value) {
                     $this->token = $value[0];
                     $this->userName = $value[1];
                 }
-            }
-            else{
+            } else {
                 http_response_code(401);
                 throw new Exception("Invalid email or password");
             }
@@ -83,20 +80,20 @@ class User
      */
     public function register(string $name): void
     {
-        if ($this->conn->executeQuery("SELECT email FROM user WHERE email = '$this->email'") != null){
+        if ($this->conn->executeQuery("SELECT email FROM user WHERE email = '$this->email'") != null) {
             http_response_code(400);
             throw new Exception("Email already used");
         }
         $hashed = hash('sha512', $this->password);
 
-        do{
+        do {
             $this->token = bin2hex(random_bytes(32));
-        }while ($this->conn->executeQuery("SELECT token FROM user WHERE token = '$this->token'") != null);
+        } while ($this->conn->executeQuery("SELECT token FROM user WHERE token = '$this->token'") != null);
 
         $result = $this->conn->executeQuery("INSERT INTO user (email, name, password, token) VALUES ('$this->email', '$name', '$hashed', '$this->token')");
-        if ($result != null){
+        if ($result != null) {
             $this->token = null;
-        }else{
+        } else {
             $this->userName = $name;
         }
     }
@@ -107,13 +104,13 @@ class User
      */
     public function getUserData(): null|array
     {
-        if ($this->token != null){
+        if ($this->token != null) {
             return array(
                 "token" => $this->token,
                 "email" => $this->email,
                 "name" => $this->userName
             );
-        }else{
+        } else {
             return null;
         }
     }

@@ -1,6 +1,8 @@
 <?php
 
-require "class/User.php";
+use model\class\User;
+
+require "entity/User.php";
 
 
 /**
