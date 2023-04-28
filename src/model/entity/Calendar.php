@@ -6,12 +6,10 @@ require_once dirname(__FILE__)."/Event.php";
 
 class Calendar
 {
-    private int $id;
-    private string $title;
-    private string $description;
-    private array $events;
-
-
+    public int $id;
+    public string $title;
+    public string $description;
+    public array $events;
 
     public function __construct(int $id, string $title, string $description, array $events)
     {
@@ -20,7 +18,6 @@ class Calendar
         $this->description = $description;
         $this->events = $events;
     }
-
 
     public function getCalendar(): array
     {
