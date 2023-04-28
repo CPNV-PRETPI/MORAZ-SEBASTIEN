@@ -33,7 +33,4 @@ class Event
             'place' => $this->place
         ];
     }
-
-
-
 }

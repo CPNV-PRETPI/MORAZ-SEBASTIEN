@@ -9,7 +9,8 @@ require_once dirname(__FILE__)."/../entity/Event.php";
 require_once dirname(__FILE__)."/../ORM/dbConnector.php";
 
 
-function getFullCalendars(string $token){
+function getFullCalendars(string $token): array
+{
     $calendarsData = getCalendars($token);
     foreach ($calendarsData as $calendarData){
         $calendarId = $calendarData['id'];
@@ -45,6 +46,7 @@ function getCalendars(string $token): array
 
 function getCalendarEvents(int $calendarId): array
 {
+    checkCalendarExist($calendarId);
     try {
         $events = executeQuerySelect("
                 SELECT event.id, event.title, event.description, event.start, event.end, event.place FROM event
@@ -54,6 +56,15 @@ function getCalendarEvents(int $calendarId): array
         return $events;
     }catch (Exception $e){
         throw new Exception("Error while getting events from calendar");
+    }
+}
+
+function checkCalendarExist(int $calendarId): void
+{
+    $result = executeQuerySelect("SELECT * FROM calendar WHERE id = '$calendarId';");
+    if ( empty($result) ){
+        http_response_code(404);
+        throw new Exception("Calendar not found");
     }
 }
 

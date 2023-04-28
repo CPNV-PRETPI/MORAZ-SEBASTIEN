@@ -3,7 +3,6 @@
 require_once dirname(__FILE__)."/../view/renderer.php";
 
 function loadCalendar($server){
-
     if (isset($server['HTTP_AUTHENTICATE'])){
         require_once dirname(__FILE__)."/../model/service/calendarService.php";
         $result = GetFullCalendars($server['HTTP_AUTHENTICATE']);
@@ -13,4 +12,3 @@ function loadCalendar($server){
         throw new Exception("Invalid Authentication Method");
     }
 }
-

@@ -11,8 +11,6 @@ class Calendar
     public string $description;
     public array $events;
 
-
-
     public function __construct(int $id, string $title, string $description, array $events)
     {
         $this->id = $id;
@@ -21,8 +19,7 @@ class Calendar
         $this->events = $events;
     }
 
-
-    /*public function getCalendar(): array
+    public function getCalendar(): array
     {
         return [
             'id' => $this->id,
@@ -30,5 +27,5 @@ class Calendar
             'description' => $this->description,
             'events' => $this->events
         ];
-    }*/
+    }
 }
