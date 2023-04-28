@@ -1,33 +1,41 @@
 <?php
 
-use model\class;
 use model\class\Calendar;
-use model\class\DbConnect;
-use model\class\Event;
+
+
 
 require_once dirname(__FILE__)."/../entity/Calendar.php";
 require_once dirname(__FILE__)."/../entity/Event.php";
 require_once dirname(__FILE__)."/../ORM/dbConnector.php";
 
 
-function GetFullCalendars(string $token){
-    $calendarsData = GetCalendars($token);
+function getFullCalendars(string $token){
+    $calendarsData = getCalendars($token);
     foreach ($calendarsData as $calendarData){
         $calendarId = $calendarData['id'];
-        $events = GetCalendarEvents($calendarId);
+        $events = getCalendarEvents($calendarId);
         $calendars[] = new Calendar($calendarData['id'], $calendarData['title'], $calendarData['description'], $events);
     }
 
     return $calendars;
 }
 
+function checkTokenExist(string $token): void
+{
+    $result = executeQuerySelect("SELECT * FROM user WHERE token = '$token';");
+    if ( empty($result) ){
+        http_response_code(401);
+        throw new Exception("Invalid Authentication Method");
+    }
+}
 
 /**
  * @param string $token
  * @throws Exception
  */
-function GetCalendars(string $token): array
+function getCalendars(string $token): array
 {
+    checkTokenExist($token);
     $calendars = executeQuerySelect("
         SELECT calendar.id, calendar.title, calendar.description FROM calendar
         INNER JOIN user u on calendar.user_id = u.id
@@ -35,12 +43,17 @@ function GetCalendars(string $token): array
     return $calendars;
 }
 
-function GetCalendarEvents(int $calendarId){
-    $events = executeQuerySelect("
-            SELECT event.id, event.title, event.description, event.start, event.end, event.place FROM event
-            INNER JOIN calendar_has_event che on event.id = che.event_id
-            INNER JOIN calendar c on che.calendar_id = c.id
-            WHERE c.id = '$calendarId';");
-    return $events;
+function getCalendarEvents(int $calendarId): array
+{
+    try {
+        $events = executeQuerySelect("
+                SELECT event.id, event.title, event.description, event.start, event.end, event.place FROM event
+                INNER JOIN calendar_has_event che on event.id = che.event_id
+                INNER JOIN calendar c on che.calendar_id = c.id
+                WHERE c.id = '$calendarId';");
+        return $events;
+    }catch (Exception $e){
+        throw new Exception("Error while getting events from calendar");
+    }
 }
 

@@ -6,10 +6,10 @@ require_once dirname(__FILE__)."/Event.php";
 
 class Calendar
 {
-    private int $id;
-    private string $title;
-    private string $description;
-    private array $events;
+    public int $id;
+    public string $title;
+    public string $description;
+    public array $events;
 
 
 
@@ -22,7 +22,7 @@ class Calendar
     }
 
 
-    public function getCalendar(): array
+    /*public function getCalendar(): array
     {
         return [
             'id' => $this->id,
@@ -30,5 +30,5 @@ class Calendar
             'description' => $this->description,
             'events' => $this->events
         ];
-    }
+    }*/
 }
